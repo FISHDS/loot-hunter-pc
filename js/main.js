@@ -174,8 +174,9 @@
   }
 
   function sizeTitle() {
-    tcv.width = Math.ceil(innerWidth / 3);
-    tcv.height = Math.ceil(innerHeight / 3);
+    // 在背景打開時畫面可能還沒有大小，至少給 1 點，避免標題畫面當掉
+    tcv.width = Math.max(1, Math.ceil(innerWidth / 3));
+    tcv.height = Math.max(1, Math.ceil(innerHeight / 3));
     const W = tcv.width, H = tcv.height;
     layers = [
       { c: caveLayer(W, H, { seed: 11, col: '#2a1c44', mid: '#1c1230', top: H * 0.16, bot: H * 0.2, spike: 0.12, len: H * 0.22 }), speed: 2, depth: 4 },
@@ -270,7 +271,8 @@
     tx.beginPath(); tx.ellipse(fx - 18, fy + 3, 9, 2.5, 0, 0, 7); tx.fill();
     tx.drawImage(LH.Spr.get('fire' + (Math.floor(tt * 8) % 3)), fx - 8, fy - 12, 16, 16);
     const hf = LH.Spr.heroFrames(titleLook);
-    tx.drawImage(hf.idle[Math.floor(tt * 1.6) % 2], fx - 32, fy - 23, 22, 26);
+    const hi = hf.idle[Math.floor(tt * 1.6) % 2];
+    tx.drawImage(hi, fx - 32, fy + 3 - hi.height, hi.width, hi.height);
     if (Math.random() < dt * 10) motes.push({ x: fx + (Math.random() - 0.5) * 6, y: fy - 8, vy: -14 - Math.random() * 14, vx: (Math.random() - 0.5) * 6, c: Math.random() < 0.5 ? '#ffb347' : '#ffd36b', t: 0.5, s: 1 });
   }
 

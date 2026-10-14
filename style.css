@@ -555,7 +555,7 @@ button.tog.warn.on { background: linear-gradient(#d0565a, #8a2a2e); color: #fff;
 /* ---------- 穿戴欄：中間顯示穿好裝的角色 ---------- */
 .doll .hero-stage { position: absolute; left: 72px; top: 22px; width: 126px; height: 170px; display: flex; align-items: flex-end; justify-content: center;
   background: radial-gradient(ellipse 50% 12% at 50% 92%, rgba(255,200,110,.28), transparent 70%), radial-gradient(ellipse 60% 55% at 50% 55%, rgba(140,90,200,.16), transparent 70%); }
-.doll .hero-big { width: 110px; height: 130px; image-rendering: pixelated; margin-bottom: 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,.55)); animation: heroIdle 2.4s ease-in-out infinite; }
+.doll .hero-big { width: 110px; height: auto; image-rendering: pixelated; margin-bottom: 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,.55)); animation: heroIdle 2.4s ease-in-out infinite; }
 @keyframes heroIdle { 50% { transform: translateY(-2px); } }
 .doll .doll-set { position: absolute; left: 70px; top: 200px; width: 130px; text-align: center; font-size: 12px; line-height: 1.5; color: var(--muted); }
 .doll-set .set-on { margin-top: 4px; color: var(--gold2); font-size: 12px; text-shadow: 0 0 8px rgba(255,200,90,.45); }

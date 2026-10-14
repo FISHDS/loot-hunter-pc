@@ -1521,12 +1521,14 @@
     const fr = moving ? hf.walk[Math.floor(campT * 8) % 4] : hf.idle[Math.floor(campT * 1.6) % 2];
     shadow(CAMP.hx, 10);
     x.save();
-    x.translate(Math.round(CAMP.hx), 106);
+    // 主角腳踩在 y=158；主角可以放大（大頭）
+    const HS = (root.LH_VIEW && root.LH_VIEW.hero) || 1, fw = fr.width * 2 * HS, fh = fr.height * 2 * HS;
+    x.translate(Math.round(CAMP.hx), 158 - fh);
     if (CAMP.face < 0) x.scale(-1, 1);
-    x.drawImage(fr, -22, 0, 44, 52);
+    x.drawImage(fr, -fw / 2, 0, fw, fh);
     x.restore();
     const bob = fr === hf.idle[1] || fr === hf.walk[1] || fr === hf.walk[3] ? 2 : 0;
-    LH.Render.drawHeld(x, UI.G.gear, Math.round(CAMP.hx) + CAMP.face * 10, 106 + 37 + bob, CAMP.face < 0 ? -1 : 1);
+    LH.Render.drawHeld(x, UI.G.gear, Math.round(CAMP.hx) + CAMP.face * 10 * HS, 158 - (15 - bob) * HS, CAMP.face < 0 ? -1 : 1, HS);
     // 火光照亮整個營地
     x.save();
     x.globalCompositeOperation = 'lighter';
