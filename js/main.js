@@ -261,19 +261,8 @@
     }
     tx.globalAlpha = 1;
     for (let i = motes.length - 1; i >= 0; i--) if (motes[i].y < -4) motes.splice(i, 1);
-    // 前景：英雄坐在營火旁
-    const fx = W * 0.8, fy = H * 0.9;
-    const fl = 1 + Math.sin(tt * 9) * 0.06 + Math.sin(tt * 23) * 0.04;
-    const lg = tx.createRadialGradient(fx, fy, 2, fx, fy, 80 * fl);
-    lg.addColorStop(0, 'rgba(255,150,60,0.42)'); lg.addColorStop(1, 'rgba(255,120,40,0)');
-    tx.fillStyle = lg; tx.fillRect(fx - 90, fy - 90, 180, 180);
-    tx.fillStyle = 'rgba(0,0,0,0.45)';
-    tx.beginPath(); tx.ellipse(fx - 18, fy + 3, 9, 2.5, 0, 0, 7); tx.fill();
-    tx.drawImage(LH.Spr.get('fire' + (Math.floor(tt * 8) % 3)), fx - 8, fy - 12, 16, 16);
-    const hf = LH.Spr.heroFrames(titleLook);
-    const hi = hf.idle[Math.floor(tt * 1.6) % 2];
-    tx.drawImage(hi, fx - 32, fy + 3 - hi.height, hi.width, hi.height);
-    if (Math.random() < dt * 10) motes.push({ x: fx + (Math.random() - 0.5) * 6, y: fy - 8, vy: -14 - Math.random() * 14, vx: (Math.random() - 0.5) * 6, c: Math.random() < 0.5 ? '#ffb347' : '#ffd36b', t: 0.5, s: 1 });
+    // 前景：主角特寫，扛著劍站在營火旁（見 portrait.js）
+    if (LH.Portrait) LH.Portrait.draw(tx, Math.round(W * 0.78), Math.round(H * 0.93), 1, tt, dt);
   }
 
   // ---------- 啟動 ----------
