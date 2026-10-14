@@ -619,3 +619,9 @@ button.tog.warn.on { background: linear-gradient(#d0565a, #8a2a2e); color: #fff;
 .dcard { height: auto; min-height: 118px; display: flex; flex-direction: column; }
 .dcard .ddesc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .dcard .dfl { position: relative; right: auto; bottom: auto; margin-top: auto; padding-top: 6px; text-align: right; }
+
+/* 技能放不出來：按鈕抖一下、閃紅光，底部出現小字（冷卻／沒魔／沒目標） */
+.si .why { position: absolute; left: 0; right: 0; bottom: 0; padding: 1px 0; text-align: center; font-size: 11px; font-weight: 900; color: #ffd0c0; background: rgba(90,16,16,.88); text-shadow: 0 1px 0 #000; opacity: 0; pointer-events: none; font-family: "Noto Sans TC", sans-serif; }
+.si.nudge { animation: skNudge .35s; border-color: #ff5a4a !important; box-shadow: 0 0 10px rgba(255,80,60,.75); }
+.si.nudge .why { opacity: 1; }
+@keyframes skNudge { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-3px); } 40% { transform: translateX(3px); } 60% { transform: translateX(-2px); } 80% { transform: translateX(2px); } }

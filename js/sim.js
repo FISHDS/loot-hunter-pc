@@ -163,9 +163,10 @@
     run.fx.push(e);
     if (run.fx.length > 400) run.fx.splice(0, 100);
   }
-  function msg(run, text, kind) {
+  // extra：附加資訊（例如 { skill, why } 讓畫面在技能按鈕上提示，而不是跳字條）
+  function msg(run, text, kind, extra) {
     if (run.noFx) return;
-    run.msgs.push({ text, kind: kind || 'info' });
+    run.msgs.push(Object.assign({ text, kind: kind || 'info' }, extra));
   }
   function logEvent(run, text) {
     const f = run.floorLog[run.floorLog.length - 1];
@@ -443,7 +444,7 @@
       const sk = cs.skills.find((s) => s.id === id);
       if (sk) {
         const r = cast(G, run, sk, true);
-        if (r !== 'ok') msg(run, { none: `${sk.name}：範圍內沒有可用敵人`, mana: `${sk.name}：法力不足`, cd: `${sk.name}：冷卻中` }[r], 'warn');
+        if (r !== 'ok') msg(run, { none: `${sk.name}：範圍內沒有可用敵人`, mana: `${sk.name}：法力不足`, cd: `${sk.name}：冷卻中` }[r], 'warn', { skill: sk.id, why: r });
         if (r === 'mana') G.hints && (G.hints.mana = true);
       }
     }

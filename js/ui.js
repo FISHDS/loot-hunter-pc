@@ -156,15 +156,37 @@
   }
 
   // ---------- 提示訊息 ----------
+  // 戰鬥畫面上方的提示字條：最多 3 條；同一句話重複時不再往下排，改成後面加 ×2、×3
   function toast(text, kind) {
     const box = $('toasts');
     if (!box || UI.screen !== 'dungeon') return;
-    const d = document.createElement('div');
-    d.className = 'toast ' + (kind || '');
-    d.textContent = text;
-    box.appendChild(d);
-    while (box.children.length > 5) box.removeChild(box.firstChild);
-    setTimeout(() => d.remove(), 2900);
+    let d = [...box.children].find((q) => q.dataset.t === text);
+    if (d) {
+      d.dataset.n = (+d.dataset.n || 1) + 1;
+      d.textContent = text + ' ×' + d.dataset.n;
+      d.style.animation = 'none'; void d.offsetWidth; d.style.animation = '';
+    } else {
+      d = document.createElement('div');
+      d.className = 'toast ' + (kind || '');
+      d.dataset.t = text;
+      d.textContent = text;
+      box.appendChild(d);
+      while (box.children.length > 3) box.removeChild(box.firstChild);
+    }
+    clearTimeout(d._t);
+    d._t = setTimeout(() => d.remove(), 2900);
+  }
+  // 技能放不出來（冷卻、沒魔、沒目標）：不跳字條，改成那顆技能按鈕抖一下、閃紅光、出現小字
+  const WHY = { cd: '冷卻', mana: '沒魔', none: '沒目標' };
+  function skillNudge(id, why) {
+    const b = document.querySelector(`#skillbar [data-cast="${id}"]`);
+    if (!b) return;
+    let w = b.querySelector('.why');
+    if (!w) { w = document.createElement('span'); w.className = 'why'; b.appendChild(w); }
+    w.textContent = WHY[why] || '';
+    b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge');
+    clearTimeout(b._nt);
+    b._nt = setTimeout(() => b.classList.remove('nudge'), 800);
   }
   function toastAny(text) {
     if (UI.screen === 'dungeon') return toast(text, 'warn');
@@ -904,7 +926,7 @@
       else { mv.textContent = boss.weak > 0 ? '弱點暴露！傷害 +50%' : ''; mv.classList.remove('warn'); }
     } else bb.classList.remove('on');
     // 訊息
-    for (const m of run.msgs) toast(m.text, m.kind);
+    for (const m of run.msgs) if (m.skill) skillNudge(m.skill, m.why); else toast(m.text, m.kind);
     if (run.msgs.some((m) => m.kind === 'warn' && m.text.includes('法力不足'))) hint('mana', '法力不夠時技能不會排隊。普通攻擊、藍水和裝備效果都能回魔。');
     run.msgs.length = 0;
   }

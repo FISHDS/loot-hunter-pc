@@ -446,6 +446,9 @@
     }
   }
 
+  // 主角頭頂上方（從格子中心往上算）：主角受傷、閃避、格擋的字從這裡冒出，不蓋住臉
+  function heroHead() { return (Spr.HERO.h + Spr.HERO.top) * 2 * HS - T / 2 + 4; }
+
   function consume(run) {
     const sfx = LH.Sfx;
     for (const e of run.fx) {
@@ -458,14 +461,14 @@
           break;
         }
         case 'hurt':
-          text(cx(e.x), cy(e.y) - 22, '-' + e.v, '#ff4a4a', e.v > 12);
+          text(cx(e.x), cy(e.y) - heroHead(), '-' + e.v, '#ff4a4a', e.v > 12);
           burst(cx(e.x), cy(e.y), '#c0202a', 5, 70, 0.4);
           R.hurtFlash = 0.25;
           if (e.v > 15) R.shake = Math.max(R.shake, 4);
           sfx && sfx.play('hurt');
           break;
-        case 'miss': text(cx(e.x), cy(e.y) - 22, '閃避', '#e8e8f0'); break;
-        case 'block': text(cx(e.x), cy(e.y) - 22, '格擋', '#c9d1db'); sfx && sfx.play('block'); break;
+        case 'miss': text(cx(e.x), cy(e.y) - heroHead(), '閃避', '#e8e8f0'); break;
+        case 'block': text(cx(e.x), cy(e.y) - heroHead(), '格擋', '#c9d1db'); sfx && sfx.play('block'); break;
         case 'swing': {
           const wb = heroWeapon(run).base;
           const heavy = wb === 'hammer', stab = wb === 'knife' || wb === 'dagger';
