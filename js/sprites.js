@@ -1334,8 +1334,10 @@
       r(6, 22, 4, 2, C[0]); r(10, 22, 4, 2, C[0]); r(6, 22, 4, 1, C[1]); r(10, 22, 4, 1, C[1]);
       r(9, 23, 1, 1, ftr); r(13, 23, 1, 1, ftr);
     } else { r(6, 22, 4, 2, '#2a2030'); r(10, 22, 4, 2, '#2a2030'); }
-    // 身體底層（布衣）
-    r(6, 11, 8, 7, '#6b5a4a'); r(4, 11, 2, 6, '#6b5a4a'); r(14, 11, 2, 6, '#6b5a4a');
+    // 身體底層（布衣；HERO.shirt／HERO.dots 可以換成自己的衣服）
+    const sh = HERO.shirt || '#6b5a4a';
+    r(6, 11, 8, 7, sh); r(4, 11, 2, 6, sh); r(14, 11, 2, 6, sh);
+    if (HERO.dots) for (const [dx, dy, dc] of HERO.dots) r(dx, dy, 1, 1, dc);
     r(4, 17, 2, 1, SKIN); r(14, 17, 2, 1, SKIN); r(6, 17, 8, 1, '#4e311b');
     // 身體裝備
     const trim = RAR_TRIM[br];
@@ -1373,7 +1375,7 @@
       r(4, 16, 2, 2, '#d8cfb4'); r(14, 16, 2, 2, '#d8cfb4'); r(4, 17, 2, 1, '#a89880'); r(14, 17, 2, 1, '#a89880');
       r(4, 16, 2, 1, htr); r(14, 16, 2, 1, htr);
     }
-    // 頭（手機版可以用 HERO.head 換成自己的頭）
+    // 頭（可以用 HERO.head 換成自己的頭，見 kid.js）
     r(9, 10, 2, 1, SKIN);
     const hd = clsOf(L.head), hdr = L.head ? L.head.r : 0, hdt = RAR_TRIM[hdr];
     if (HERO.head) {
@@ -1411,7 +1413,7 @@
     }
   }
   // 主角圖的大小：電腦版 22×26；top＝頭頂多留的高度（手機版的大頭用）；head＝換頭的畫法
-  const HERO = { w: 22, h: 26, top: 0, head: null };
+  const HERO = { w: 22, h: 26, top: 0, head: null, shirt: null, dots: null };
   const dollCache = {};
   function heroImg(L) {
     const k = lookKey(L);
